@@ -1,0 +1,148 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Age calculator app</title>
+
+    <style>
+      input {
+        font-size: 32px;
+        color: hsl(0, 0%, 8%);
+        width: 110%;
+        border-radius: 10px;
+        border-color: hsl(0, 0%, 86%);
+        height: 75%;
+        font-family:Poppins;
+      }
+      #main {
+        width: 70%;
+        border: none;
+        background-color: white;
+        border-radius: 6%;
+        border-bottom-right-radius: 35%;
+        padding: 2%;
+        margin-top: 5%;
+      }
+      body {
+        background-color: rgb(235, 236, 243);
+        display: flex;
+        
+        justify-content: center;
+        align-items: center;
+        padding: 3%;
+      }
+      #main p {
+        margin: 0;
+        line-height: 99%;
+        
+      }
+      img {
+        background-color: hsl(259, 100%, 65%);
+        border-radius: 50%;
+        padding: 15px;
+      }
+      .inputBox {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 3%;
+      }
+      .box {
+        width: 20%;
+        margin: 4%;
+      }
+      @font-face {
+        font-family: Poppins;
+        src: url(./assets/fonts/Poppins-ExtraBoldItalic.ttf);
+        font-weight: 800;
+      }
+      .display {
+        font-family: Poppins;
+        font-size: 7vw;
+      }
+      @media only screen and (max-width: 400px) {
+        #main{
+          width:100%;
+          
+        }
+        img{
+          align-self: center;
+        }
+        .display{
+          font-size:300%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <div class="inputBox">
+        <div class="box">
+          DAY
+          <input type="number" id="date" placeholder="DD" />
+          <p></p>
+        </div>
+        <div class="box">
+          MONTH
+          <input type="number" id="month" placeholder="MM" />
+          <p></p>
+        </div>
+        <div class="box">
+          YEAR
+          <input type="number" id="year" placeholder="YYYY" />
+          <p></p>
+        </div>
+      </div>
+      <div style="display: flex">
+        <div style="width: 90%; align-self: center"><hr /></div>
+        <div>
+          <img src="./assets/images/icon-arrow.svg" onclick="display()" />
+        </div>
+      </div>
+
+      <div class="display">
+        <p>
+          <span id="displayYear" style="color: hsl(259, 100%, 65%)">--</span>years<br />
+          <span id="displayMonth" style="color: hsl(259, 100%, 65%)">--</span>months<br />
+          <span id="displayDay" style="color: hsl(259, 100%, 65%)">--</span>days
+        </p>
+      </div>
+    </div>
+    <script>
+      function display() {
+        let now = new Date();
+        let date = document.getElementById("date").value;
+        let month = document.getElementById("month").value;
+        let year = document.getElementById("year").value;
+
+        if (date == "" || month == "" || year == "") {
+          document.getElementById("main").style.color = "hsl(0 ,100% ,67%)";
+          return;
+        } else {
+          document.getElementById("main").style.color = "black";
+        }
+
+        let birthdate = new Date(year, month, date);
+        let newyear = now.getFullYear() - year;
+        let newmonth = now.getMonth() + 1 - month;
+        let newdate = now.getDate() - date;
+
+        if (newdate < 0) {
+          newmonth--;
+          newdate += new Date(now.getFullYear(), birthdate.getMonth(), 0).getDate();
+        }
+        if (newmonth < 0) {
+          newyear--;
+          newmonth += 12;
+        }
+
+        document.getElementById("displayYear").innerHTML = newyear;
+        document.getElementById("displayMonth").innerHTML = newmonth;
+        document.getElementById("displayDay").innerHTML = newdate;
+      }
+    </script>
+  </body>
+</html>
