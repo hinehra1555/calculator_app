@@ -63,6 +63,10 @@
         font-family: Poppins;
         font-size: 7vw;
       }
+      .nullfield{
+        color:red;
+
+      }
       @media only screen and (max-width: 400px) {
         #main{
           width:100%;
@@ -81,20 +85,22 @@
     <div id="main">
       <div class="inputBox">
         <div class="box">
+          
           DAY
-          <input type="number" id="date" placeholder="DD" />
-          <p></p>
+          <input type="text" id="date" placeholder="DD" min="1" max="31" maxlength="2" size="2" onkeyup="isValidDate()"/>
+          <p id="nullDate" class="nullfield"></p>
         </div>
         <div class="box">
           MONTH
-          <input type="number" id="month" placeholder="MM" />
-          <p></p>
+          <input type="text" id="month" placeholder="MM" min="1" max="12" maxlength="2" size="2" onkeyup="isValidMonth()"/>
+          <p id="nullMonth" class="nullfield"></p>
         </div>
         <div class="box">
           YEAR
-          <input type="number" id="year" placeholder="YYYY" />
-          <p></p>
+          <input type="text" id="year" placeholder="YYYY" maxlength="4" size="4" onkeyup="isValidYear()"/>
+          <p id="nullYear" class="nullfield"></p>
         </div>
+      
       </div>
       <div style="display: flex">
         <div style="width: 90%; align-self: center"><hr /></div>
@@ -112,6 +118,51 @@
       </div>
     </div>
     <script>
+      function nullEntry(element,elementId)
+      {
+        if(element=="")
+        {
+          document.getElementById(elementId).innerHTML="This field is required";
+        }
+        else{
+          document.getElementById(elementId).innerHTML="";
+        }
+      }
+      function isValidYear()
+      {
+          let year=document.getElementById("year").value;
+          if(Number(year)>(new Date()).getFullYear())
+          {
+              document.getElementById("nullYear").innerHTML="Must be in past";
+          }
+          else{
+            nullEntry(year,"nullYear");
+          }
+      }
+      function isValidDate()
+      {
+        let date=document.getElementById("date").value;
+        console.log("enter");
+        if(Number(date)>31 || Number(date)<1)
+        {
+          document.getElementById("nullDate").innerHTML="Must be a valid day";
+        }
+        else{
+              nullEntry(date,"nullDate");
+        }
+      }
+      function isValidMonth()
+      {
+         let month=document.getElementById("month").value;
+         if(Number(month)>12 || Number(month)<1)
+         {
+          document.getElementById("nullMonth").innerHTML="Must be a valid month";
+         }
+         else{
+             nullEntry(month,"nullMonth");
+         }
+      }
+
       function display() {
         let now = new Date();
         let date = document.getElementById("date").value;
@@ -120,10 +171,19 @@
 
         if (date == "" || month == "" || year == "") {
           document.getElementById("main").style.color = "hsl(0 ,100% ,67%)";
+          nullEntry(date,"nullDate");
+          nullEntry(month,"nullMonth");
+          nullEntry(year,"nullYear");
+          
           return;
-        } else {
+        } 
+        else {
           document.getElementById("main").style.color = "black";
+          document.getElementById("nullDate").innerHTML="";
+          document.getElementById("nullMonth").innerHTML="";
+          document.getElementById("nullYear").innerHTML="";
         }
+        
 
         let birthdate = new Date(year, month, date);
         let newyear = now.getFullYear() - year;
